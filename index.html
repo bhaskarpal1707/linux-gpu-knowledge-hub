@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CmdHub — Linux GPU & AI/ML Command Center</title>
+    <meta name="description" content="Advanced searchable knowledge hub for Linux, GPU, AI/ML, Docker, and debugging commands. Find any command in seconds.">
+    <meta name="keywords" content="Linux, GPU, AI, ML, Docker, commands, cheat sheet, NVIDIA, CUDA, terminal">
+    <meta name="author" content="CmdHub">
+    <meta name="theme-color" content="#0a0e17">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-logo" aria-label="CmdHub home">
+                    <div class="sidebar-logo-main">
+                        <i class="bi bi-terminal-fill" style="color: var(--accent-blue); font-size: 1.5rem;" aria-hidden="true"></i>
+                        <span class="sidebar-logo-text">CmdHub</span>
+                    </div>
+                    <span class="sidebar-logo-credit">Developed by Bhaskar Pal</span>
+                </a>
+                <button class="btn btn--icon sidebar-toggle" id="sidebar-toggle" title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true" aria-controls="sidebar">
+                    <i class="bi bi-layout-sidebar-inset" aria-hidden="true"></i>
+                </button>
+            </div>
+            <nav class="sidebar-nav" id="sidebar-nav" aria-label="Category navigation">
+                <!-- Populated by app.js -->
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content" id="main-content" role="main">
+            <!-- Mobile header -->
+            <header class="mobile-header" role="banner">
+                <button class="btn btn--icon mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="sidebar">
+                    <i class="bi bi-list" aria-hidden="true"></i>
+                </button>
+                <span class="mobile-logo" aria-hidden="true">⚡CmdHub</span>
+            </header>
+
+            <!-- HERO / SEARCH SECTION -->
+            <section class="dashboard-hero" aria-labelledby="dashboard-title">
+                <div class="dashboard-hero-content">
+                    <h1 class="dashboard-title" id="dashboard-title">Command Center</h1>
+                    <p class="dashboard-subtitle">Linux, GPU & AI/ML Engineering Toolkit — Find any command in seconds</p>
+                    
+                    <!-- Global Search -->
+                    <div class="search-container" id="search-container" role="search" aria-label="Global command search">
+                        <div class="search-bar">
+                            <i class="bi bi-search search-icon" aria-hidden="true"></i>
+                            <input type="text" id="global-search" placeholder="Search commands... (e.g. gpu, process, docker)" autocomplete="off" spellcheck="false" aria-label="Search commands" aria-describedby="search-shortcut-hint" aria-owns="search-results" aria-autocomplete="list">
+                            <kbd class="search-shortcut" id="search-shortcut-hint" aria-label="Press Ctrl+K to focus search">Ctrl+K</kbd>
+                        </div>
+                        <div class="search-results" id="search-results" role="listbox" aria-label="Search results" hidden></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STATS BAR -->
+            <section class="stats-bar" id="stats-bar" aria-label="Command statistics">
+                <!-- Populated by JS: Total commands, Categories, Keyboard hint -->
+            </section>
+
+            <!-- MAIN GRID -->
+            <div class="dashboard-grid">
+                <!-- LEFT: Category Cards -->
+                <section class="dashboard-main" aria-labelledby="categories-heading">
+                    <h2 class="section-title" id="categories-heading"><i class="bi bi-grid-1x2" aria-hidden="true"></i> Categories</h2>
+                    <div class="category-grid" id="category-grid" role="list" aria-label="Command categories">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+
+                <!-- RIGHT: Quick Access -->
+                <aside class="dashboard-aside" aria-label="Quick access panels">
+                    <!-- Favorites -->
+                    <div class="quick-panel" id="favorites-panel">
+                        <h3 class="quick-panel-title" id="favorites-heading"><i class="bi bi-heart-fill" aria-hidden="true"></i> Favorites</h3>
+                        <div class="quick-panel-list" id="favorites-list" role="list" aria-labelledby="favorites-heading">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Recently Viewed -->
+                    <div class="quick-panel" id="recently-viewed-panel">
+                        <h3 class="quick-panel-title" id="recently-viewed-heading"><i class="bi bi-clock-history" aria-hidden="true"></i> Recently Viewed</h3>
+                        <div class="quick-panel-list" id="recently-viewed-list" role="list" aria-labelledby="recently-viewed-heading">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Most Used -->
+                    <div class="quick-panel" id="most-used-panel">
+                        <h3 class="quick-panel-title" id="most-used-heading"><i class="bi bi-lightning-fill" aria-hidden="true"></i> Most Used</h3>
+                        <div class="quick-panel-list" id="most-used-list" role="list" aria-labelledby="most-used-heading">
+                            <!-- Populated by JS with hardcoded top commands -->
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Command Detail Modal -->
+            <div class="modal-overlay" id="command-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-command-title" hidden>
+                <div class="modal-content" id="command-detail-panel">
+                    <button class="btn btn--icon modal-close" id="modal-close" aria-label="Close command detail">
+                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    </button>
+                    <div id="command-detail-content" role="document">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="app-footer" role="contentinfo">
+                <div class="footer-content">
+                    <p class="footer-copyright">&copy; 2026 CmdHub. All rights reserved.</p>
+                    <p class="footer-credit">Developed by <a href="https://github.com/bhaskarpal1707" target="_blank" rel="noopener noreferrer">Bhaskar Pal</a></p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.4.1/dist/fuse.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/search.js"></script>
+</body>
+</html>

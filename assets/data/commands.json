@@ -1,0 +1,1351 @@
+{
+  "categories": [
+    {
+      "id": "process-monitoring",
+      "name": "Process Monitoring",
+      "icon": "bi-activity",
+      "description": "Monitor and track running processes in real-time",
+      "color": "#3b82f6"
+    },
+    {
+      "id": "process-discovery",
+      "name": "Process Discovery & Investigation",
+      "icon": "bi-search",
+      "description": "Find, inspect, and manage individual processes",
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "process-hierarchy",
+      "name": "Process Hierarchy",
+      "icon": "bi-diagram-3",
+      "description": "Visualize parent-child process relationships",
+      "color": "#6366f1"
+    },
+    {
+      "id": "gpu-monitoring",
+      "name": "GPU Monitoring & Debugging",
+      "icon": "bi-gpu-card",
+      "description": "Monitor NVIDIA GPU utilization, memory, and processes",
+      "color": "#10b981"
+    },
+    {
+      "id": "memory-monitoring",
+      "name": "Memory Monitoring",
+      "icon": "bi-memory",
+      "description": "Track RAM usage, swap, and memory statistics",
+      "color": "#f59e0b"
+    },
+    {
+      "id": "file-port-debugging",
+      "name": "File & Port Debugging",
+      "icon": "bi-file-earmark-lock",
+      "description": "Investigate open files, locked resources, and network ports",
+      "color": "#ef4444"
+    },
+    {
+      "id": "user-monitoring",
+      "name": "User Monitoring",
+      "icon": "bi-people",
+      "description": "Track logged-in users and session activity",
+      "color": "#06b6d4"
+    },
+    {
+      "id": "disk-monitoring",
+      "name": "Disk Monitoring",
+      "icon": "bi-hdd",
+      "description": "Monitor disk space, directory sizes, and storage usage",
+      "color": "#f97316"
+    },
+    {
+      "id": "log-debugging",
+      "name": "Log Debugging",
+      "icon": "bi-journal-text",
+      "description": "Read, tail, and search through system and application logs",
+      "color": "#ec4899"
+    },
+    {
+      "id": "file-search",
+      "name": "File Search & Codebase Navigation",
+      "icon": "bi-folder-symlink",
+      "description": "Search files, navigate codebases, and locate content",
+      "color": "#14b8a6"
+    },
+    {
+      "id": "network-debugging",
+      "name": "Network Debugging",
+      "icon": "bi-wifi",
+      "description": "Diagnose network connectivity, DNS, and routing issues",
+      "color": "#a855f7"
+    },
+    {
+      "id": "docker-debugging",
+      "name": "Docker Debugging",
+      "icon": "bi-box-seam",
+      "description": "Manage and debug Docker containers, images, and services",
+      "color": "#0ea5e9"
+    },
+    {
+      "id": "aiml-commands",
+      "name": "AI/ML Specific Commands",
+      "icon": "bi-robot",
+      "description": "Commands tailored for AI/ML workflows, training, and inference",
+      "color": "#f43f5e"
+    },
+    {
+      "id": "important-commands",
+      "name": "Most Important Commands",
+      "icon": "bi-star",
+      "description": "Essential commands every AI/ML engineer should know — curated from all categories",
+      "color": "#eab308"
+    }
+  ],
+  "commands": [
+    {
+      "id": "ps-aux-grep",
+      "name": "Find a Process",
+      "command": "ps aux | grep xxx",
+      "categoryId": "process-monitoring",
+      "purpose": "Search for running processes by name or keyword.",
+      "example": "ps aux | grep vllm",
+      "usefulWhen": [
+        "Checking if a service is running",
+        "Finding a PID",
+        "Debugging stuck processes"
+      ],
+      "syntax": "ps aux | grep <process_name>",
+      "tags": ["process", "search", "grep", "monitoring", "pid"],
+      "complexity": "intermediate",
+      "relatedCommands": ["pgrep-af", "pidof", "ps-fp", "ps-o-user"],
+      "installation": null,
+      "notes": "The grep itself may appear in the results. Use `ps aux | grep [v]llm` or pipe through `grep -v grep` to filter it out."
+    },
+    {
+      "id": "ps-o-user",
+      "name": "Check Process Owner and Parent",
+      "command": "ps -o user,pid,ppid,cmd -p PID",
+      "categoryId": "process-monitoring",
+      "purpose": "Display the user, PID, parent PID, and command for a specific process.",
+      "example": "ps -o user,pid,ppid,cmd -p 296287",
+      "usefulWhen": [
+        "Identifying who launched a process",
+        "Finding parent-child relationships",
+        "Auditing process ownership on shared servers"
+      ],
+      "syntax": "ps -o user,pid,ppid,cmd -p <PID>",
+      "tags": ["process", "owner", "parent", "pid", "inspection"],
+      "complexity": "intermediate",
+      "relatedCommands": ["ps-aux-grep", "ps-fp", "pstree-sp"],
+      "installation": null,
+      "notes": "You can customize the output columns by changing the -o fields (e.g., add %cpu,%mem)."
+    },
+    {
+      "id": "ps-fp",
+      "name": "View Full Command",
+      "command": "ps -fp PID",
+      "categoryId": "process-monitoring",
+      "purpose": "Display the full command used to launch a process.",
+      "example": "ps -fp 296132",
+      "usefulWhen": [
+        "Understanding how a process was started",
+        "Finding model paths in ML training runs",
+        "Debugging server startup arguments"
+      ],
+      "syntax": "ps -fp <PID>",
+      "tags": ["process", "command", "full", "debug", "arguments"],
+      "complexity": "intermediate",
+      "relatedCommands": ["ps-aux-grep", "ps-o-user", "pgrep-af"],
+      "installation": null,
+      "notes": "Use `ps -efp PID` for even more detailed output including environment variables."
+    },
+    {
+      "id": "top",
+      "name": "Live Process Monitoring",
+      "command": "top",
+      "categoryId": "process-monitoring",
+      "purpose": "Real-time monitoring of CPU, RAM, and running processes.",
+      "example": "top",
+      "usefulWhen": [
+        "Finding CPU bottlenecks",
+        "Detecting runaway processes",
+        "Monitoring system load in real-time"
+      ],
+      "syntax": "top",
+      "tags": ["process", "cpu", "ram", "realtime", "monitoring", "system"],
+      "complexity": "beginner",
+      "relatedCommands": ["htop", "ps-aux-grep"],
+      "installation": null,
+      "notes": "Press 'q' to quit. Press 'P' to sort by CPU, 'M' to sort by memory, '1' to show per-core CPU usage."
+    },
+    {
+      "id": "htop",
+      "name": "Advanced Process Monitoring",
+      "command": "htop",
+      "categoryId": "process-monitoring",
+      "purpose": "Interactive, visual process monitor — an enhanced alternative to top.",
+      "example": "htop",
+      "usefulWhen": [
+        "Killing processes interactively",
+        "Sorting and filtering by CPU or RAM",
+        "Getting a better visual overview of system resources"
+      ],
+      "syntax": "htop",
+      "tags": ["process", "interactive", "monitoring", "cpu", "ram", "visual"],
+      "complexity": "beginner",
+      "relatedCommands": ["top", "ps-aux-grep"],
+      "installation": "sudo apt install htop",
+      "notes": "Supports mouse interaction. Press F5 for tree view, F6 to sort, F9 to kill a process."
+    },
+    {
+      "id": "pgrep-af",
+      "name": "Find Process by Name",
+      "command": "pgrep -af NAME",
+      "categoryId": "process-discovery",
+      "purpose": "Search for processes by name — a cleaner alternative to ps aux | grep.",
+      "example": "pgrep -af vllm",
+      "usefulWhen": [
+        "Quickly finding if a specific process is running",
+        "Listing all matching processes with full command lines",
+        "Scripting process checks in automation"
+      ],
+      "syntax": "pgrep -af <process_name>",
+      "tags": ["process", "search", "name", "pid", "alternative"],
+      "complexity": "intermediate",
+      "relatedCommands": ["ps-aux-grep", "pidof", "kill-pid"],
+      "installation": null,
+      "notes": "The -a flag shows the full command line, -f matches against the full command string, not just the process name."
+    },
+    {
+      "id": "pidof",
+      "name": "Find PID of a Program",
+      "command": "pidof PROCESS_NAME",
+      "categoryId": "process-discovery",
+      "purpose": "Returns the process ID(s) for a running program by its exact name.",
+      "example": "pidof python",
+      "usefulWhen": [
+        "Getting PID for scripting and automation",
+        "Checking if a program has multiple instances",
+        "Feeding PID to kill or other commands"
+      ],
+      "syntax": "pidof <program_name>",
+      "tags": ["process", "pid", "lookup", "program"],
+      "complexity": "beginner",
+      "relatedCommands": ["pgrep-af", "ps-aux-grep", "kill-pid"],
+      "installation": null,
+      "notes": "Returns multiple PIDs if several instances are running. Returns nothing (exit code 1) if the process is not found."
+    },
+    {
+      "id": "kill-pid",
+      "name": "Gracefully Stop a Process",
+      "command": "kill PID",
+      "categoryId": "process-discovery",
+      "purpose": "Send a SIGTERM signal to gracefully terminate a process.",
+      "example": "kill 296132",
+      "usefulWhen": [
+        "Stopping a service cleanly",
+        "Allowing a process to save state before exiting",
+        "Terminating training runs that need cleanup"
+      ],
+      "syntax": "kill <PID>",
+      "tags": ["process", "kill", "stop", "sigterm", "terminate"],
+      "complexity": "beginner",
+      "relatedCommands": ["kill-9-pid", "pgrep-af", "pidof"],
+      "installation": null,
+      "notes": "SIGTERM allows the process to catch the signal and perform cleanup. If the process doesn't respond, use kill -9."
+    },
+    {
+      "id": "kill-9-pid",
+      "name": "Force Kill a Process",
+      "command": "kill -9 PID",
+      "categoryId": "process-discovery",
+      "purpose": "Immediately and forcefully terminate a process with SIGKILL.",
+      "example": "kill -9 296132",
+      "usefulWhen": [
+        "Process is unresponsive to normal kill",
+        "Zombie processes that won't terminate",
+        "Freeing GPU memory held by a stuck training job"
+      ],
+      "syntax": "kill -9 <PID>",
+      "tags": ["process", "kill", "force", "sigkill", "terminate"],
+      "complexity": "intermediate",
+      "relatedCommands": ["kill-pid", "pgrep-af", "pidof", "nvidia-smi"],
+      "installation": null,
+      "notes": "SIGKILL cannot be caught or ignored by the process. Use as a last resort — the process won't get a chance to clean up."
+    },
+    {
+      "id": "nice",
+      "name": "Start a Low-Priority Process",
+      "command": "nice -n 10 python train.py",
+      "categoryId": "process-discovery",
+      "purpose": "Launch a process with a lower CPU scheduling priority.",
+      "example": "nice -n 10 python train.py",
+      "usefulWhen": [
+        "Running background tasks on shared servers",
+        "Preventing a training job from hogging all CPU",
+        "Being courteous on multi-user GPU machines"
+      ],
+      "syntax": "nice -n <priority> <command>",
+      "tags": ["process", "priority", "scheduling", "nice", "cpu"],
+      "complexity": "intermediate",
+      "relatedCommands": ["renice"],
+      "installation": null,
+      "notes": "Nice values range from -20 (highest priority) to 19 (lowest priority). Default is 0. Only root can set negative nice values."
+    },
+    {
+      "id": "renice",
+      "name": "Change Priority of Running Process",
+      "command": "renice 10 -p PID",
+      "categoryId": "process-discovery",
+      "purpose": "Adjust the CPU scheduling priority of an already running process.",
+      "example": "renice 10 -p 296132",
+      "usefulWhen": [
+        "Lowering priority of a runaway process",
+        "Adjusting resource allocation on shared servers",
+        "Deprioritizing a non-critical training job"
+      ],
+      "syntax": "renice <priority> -p <PID>",
+      "tags": ["process", "priority", "scheduling", "renice", "cpu"],
+      "complexity": "intermediate",
+      "relatedCommands": ["nice", "top", "htop"],
+      "installation": null,
+      "notes": "Regular users can only increase the nice value (lower priority). Root can decrease it (raise priority)."
+    },
+    {
+      "id": "pstree-sp",
+      "name": "View Parent-Child Tree",
+      "command": "pstree -sp PID",
+      "categoryId": "process-hierarchy",
+      "purpose": "Show the full process tree from init to the specified PID, including PIDs.",
+      "example": "pstree -sp 296287",
+      "usefulWhen": [
+        "Understanding process lineage",
+        "Debugging orphaned or zombie processes",
+        "Tracing which parent spawned a child process",
+        "Investigating Docker container process trees"
+      ],
+      "syntax": "pstree -sp <PID>",
+      "tags": ["process", "tree", "hierarchy", "parent", "child", "debug"],
+      "complexity": "intermediate",
+      "relatedCommands": ["ps-o-user", "ps-fp", "ps-aux-grep"],
+      "installation": null,
+      "notes": "The -s flag shows ancestors up to init, -p shows PIDs. Add -a to show command-line arguments."
+    },
+    {
+      "id": "nvidia-smi",
+      "name": "GPU Status Overview",
+      "command": "nvidia-smi",
+      "categoryId": "gpu-monitoring",
+      "purpose": "Display NVIDIA GPU status including utilization, memory, temperature, and running processes.",
+      "example": "nvidia-smi",
+      "usefulWhen": [
+        "Checking GPU memory usage before launching a model",
+        "Identifying which processes are using GPUs",
+        "Monitoring GPU temperature during training",
+        "Verifying CUDA driver version"
+      ],
+      "syntax": "nvidia-smi",
+      "tags": ["gpu", "nvidia", "cuda", "memory", "monitoring", "temperature"],
+      "complexity": "beginner",
+      "relatedCommands": ["watch-nvidia-smi", "nvidia-smi-pmon", "fuser-dev-nvidia", "nvidia-smi-query", "nvitop"],
+      "installation": null,
+      "notes": "Comes pre-installed with NVIDIA drivers. Shows GPU index, name, fan speed, temperature, power, memory usage, and active processes."
+    },
+    {
+      "id": "watch-nvidia-smi",
+      "name": "Live GPU Monitoring",
+      "command": "watch -n 1 nvidia-smi",
+      "categoryId": "gpu-monitoring",
+      "purpose": "Continuously refresh nvidia-smi output every second for real-time GPU monitoring.",
+      "example": "watch -n 1 nvidia-smi",
+      "usefulWhen": [
+        "Monitoring GPU usage during model training",
+        "Watching memory consumption during inference",
+        "Tracking temperature spikes under load",
+        "Observing GPU utilization patterns"
+      ],
+      "syntax": "watch -n <seconds> nvidia-smi",
+      "tags": ["gpu", "nvidia", "monitoring", "realtime", "watch", "live"],
+      "complexity": "intermediate",
+      "relatedCommands": ["nvidia-smi", "nvidia-smi-pmon", "nvitop"],
+      "installation": null,
+      "notes": "Press Ctrl+C to stop. Change interval with -n flag (e.g., watch -n 5 for every 5 seconds). Use watch -d to highlight changes."
+    },
+    {
+      "id": "nvidia-smi-pmon",
+      "name": "Per-Process GPU Monitoring",
+      "command": "nvidia-smi pmon -i 0",
+      "categoryId": "gpu-monitoring",
+      "purpose": "Monitor per-process GPU utilization and memory usage in real-time.",
+      "example": "nvidia-smi pmon -i 0",
+      "usefulWhen": [
+        "Identifying which process is consuming GPU resources",
+        "Monitoring per-process GPU compute and memory",
+        "Debugging GPU resource contention between users",
+        "Tracking SM (Streaming Multiprocessor) utilization"
+      ],
+      "syntax": "nvidia-smi pmon -i <gpu_index>",
+      "tags": ["gpu", "nvidia", "process", "monitoring", "per-process", "utilization"],
+      "complexity": "advanced",
+      "relatedCommands": ["nvidia-smi", "watch-nvidia-smi", "fuser-dev-nvidia"],
+      "installation": null,
+      "notes": "Use -i to specify GPU index (0-based). Shows PID, type (C=Compute, G=Graphics), SM%, memory%, encoder%, decoder% per process."
+    },
+    {
+      "id": "fuser-dev-nvidia",
+      "name": "Find Processes Using GPU",
+      "command": "fuser -v /dev/nvidia*",
+      "categoryId": "gpu-monitoring",
+      "purpose": "List all processes that have the NVIDIA GPU device files open.",
+      "example": "fuser -v /dev/nvidia*",
+      "usefulWhen": [
+        "Finding hidden processes using GPU memory",
+        "Debugging 'CUDA out of memory' errors",
+        "Clearing GPU before launching a new job",
+        "Identifying orphaned GPU processes"
+      ],
+      "syntax": "fuser -v /dev/nvidia*",
+      "tags": ["gpu", "nvidia", "process", "device", "files", "debug"],
+      "complexity": "advanced",
+      "relatedCommands": ["nvidia-smi", "kill-9-pid", "lsof"],
+      "installation": null,
+      "notes": "The -v flag provides verbose output showing USER, PID, ACCESS, and COMMAND. Useful when nvidia-smi doesn't show all GPU-using processes."
+    },
+    {
+      "id": "nvidia-smi-query",
+      "name": "Query GPU Properties",
+      "command": "nvidia-smi --query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu --format=csv",
+      "categoryId": "gpu-monitoring",
+      "purpose": "Extract specific GPU metrics in a CSV-friendly format for scripting and logging.",
+      "example": "nvidia-smi --query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu --format=csv",
+      "usefulWhen": [
+        "Logging GPU metrics to a file",
+        "Building monitoring dashboards",
+        "Automating GPU health checks in scripts",
+        "Comparing memory across multiple GPUs"
+      ],
+      "syntax": "nvidia-smi --query-gpu=<field1>,<field2>,... --format=csv",
+      "tags": ["gpu", "nvidia", "query", "csv", "scripting", "metrics", "automation"],
+      "complexity": "advanced",
+      "relatedCommands": ["nvidia-smi", "watch-nvidia-smi", "nvitop"],
+      "installation": null,
+      "notes": "Available fields: name, temperature.gpu, power.draw, memory.total, memory.used, memory.free, utilization.gpu, utilization.memory, and many more. Run `nvidia-smi --help-query-gpu` for full list."
+    },
+    {
+      "id": "nvitop",
+      "name": "Interactive GPU Monitor",
+      "command": "nvitop",
+      "categoryId": "gpu-monitoring",
+      "purpose": "An interactive, htop-like GPU process and resource monitor with rich visualization.",
+      "example": "nvitop",
+      "usefulWhen": [
+        "Wanting a prettier GPU monitoring interface",
+        "Monitoring multiple GPUs simultaneously",
+        "Getting real-time process-level GPU details",
+        "Replacing nvidia-smi for day-to-day monitoring"
+      ],
+      "syntax": "nvitop",
+      "tags": ["gpu", "nvidia", "interactive", "monitoring", "visual", "htop"],
+      "complexity": "beginner",
+      "relatedCommands": ["nvidia-smi", "watch-nvidia-smi", "gpustat"],
+      "installation": "pip install nvitop",
+      "notes": "Provides colored output, per-process GPU stats, and a much more user-friendly interface than nvidia-smi. Supports filtering and sorting."
+    },
+    {
+      "id": "free-h",
+      "name": "Check Memory Usage",
+      "command": "free -h",
+      "categoryId": "memory-monitoring",
+      "purpose": "Display system RAM and swap usage in human-readable format.",
+      "example": "free -h",
+      "usefulWhen": [
+        "Checking available RAM before loading a large model",
+        "Diagnosing OOM (Out of Memory) issues",
+        "Monitoring swap usage on GPU servers"
+      ],
+      "syntax": "free -h",
+      "tags": ["memory", "ram", "swap", "system", "usage"],
+      "complexity": "beginner",
+      "relatedCommands": ["vmstat", "proc-meminfo"],
+      "installation": null,
+      "notes": "The -h flag shows values in GB/MB. 'available' column is more accurate than 'free' for estimating usable memory."
+    },
+    {
+      "id": "vmstat",
+      "name": "Virtual Memory Statistics",
+      "command": "vmstat 1",
+      "categoryId": "memory-monitoring",
+      "purpose": "Report virtual memory, CPU, and I/O statistics with periodic updates.",
+      "example": "vmstat 1",
+      "usefulWhen": [
+        "Diagnosing memory pressure and swapping",
+        "Monitoring I/O wait and context switches",
+        "Tracking system performance over time"
+      ],
+      "syntax": "vmstat <interval_seconds>",
+      "tags": ["memory", "virtual", "statistics", "cpu", "io", "swap"],
+      "complexity": "intermediate",
+      "relatedCommands": ["free-h", "proc-meminfo", "top"],
+      "installation": null,
+      "notes": "First line shows averages since boot. Subsequent lines show real-time stats. Key columns: si/so (swap in/out), bi/bo (block I/O), wa (I/O wait)."
+    },
+    {
+      "id": "proc-meminfo",
+      "name": "Detailed Memory Info",
+      "command": "cat /proc/meminfo",
+      "categoryId": "memory-monitoring",
+      "purpose": "Display detailed kernel memory statistics directly from the proc filesystem.",
+      "example": "cat /proc/meminfo",
+      "usefulWhen": [
+        "Getting granular memory breakdown",
+        "Checking HugePages configuration for ML workloads",
+        "Debugging memory fragmentation issues"
+      ],
+      "syntax": "cat /proc/meminfo",
+      "tags": ["memory", "kernel", "proc", "detailed", "statistics"],
+      "complexity": "intermediate",
+      "relatedCommands": ["free-h", "vmstat"],
+      "installation": null,
+      "notes": "Contains detailed fields like MemTotal, MemFree, MemAvailable, Buffers, Cached, SwapTotal, SwapFree, HugePages_Total, etc."
+    },
+    {
+      "id": "lsof",
+      "name": "List Open Files by Process",
+      "command": "lsof -p PID",
+      "categoryId": "file-port-debugging",
+      "purpose": "List all files opened by a specific process.",
+      "example": "lsof -p 296132",
+      "usefulWhen": [
+        "Debugging file lock issues",
+        "Finding which files a process is reading/writing",
+        "Investigating 'too many open files' errors",
+        "Checking model file access during inference"
+      ],
+      "syntax": "lsof -p <PID>",
+      "tags": ["files", "open", "process", "debug", "lock"],
+      "complexity": "intermediate",
+      "relatedCommands": ["lsof-i", "fuser-port", "ss-tulpn"],
+      "installation": null,
+      "notes": "On Linux, everything is a file — lsof shows regular files, sockets, pipes, devices, and more."
+    },
+    {
+      "id": "lsof-i",
+      "name": "Find Process Using a Port",
+      "command": "lsof -i :PORT",
+      "categoryId": "file-port-debugging",
+      "purpose": "Identify which process is listening on or connected to a specific network port.",
+      "example": "lsof -i :8000",
+      "usefulWhen": [
+        "Debugging 'address already in use' errors",
+        "Finding what's running on a vLLM or API port",
+        "Checking if a model server started correctly",
+        "Resolving port conflicts"
+      ],
+      "syntax": "lsof -i :<port_number>",
+      "tags": ["port", "network", "process", "debug", "socket", "listen"],
+      "complexity": "intermediate",
+      "relatedCommands": ["ss-tulpn", "netstat-tulpn", "lsof", "fuser-port"],
+      "installation": null,
+      "notes": "Use `lsof -i :8000 -t` to get only the PID. Combine with kill for quick cleanup: `kill $(lsof -i :8000 -t)`."
+    },
+    {
+      "id": "fuser-port",
+      "name": "Find Process on Port (fuser)",
+      "command": "fuser PORT/tcp",
+      "categoryId": "file-port-debugging",
+      "purpose": "Quickly identify which process is using a specific TCP port.",
+      "example": "fuser 8000/tcp",
+      "usefulWhen": [
+        "Quick port-to-PID lookup",
+        "Killing a process blocking a port",
+        "Scripting port cleanup operations"
+      ],
+      "syntax": "fuser <port>/tcp",
+      "tags": ["port", "tcp", "process", "fuser", "network"],
+      "complexity": "intermediate",
+      "relatedCommands": ["lsof-i", "ss-tulpn", "netstat-tulpn"],
+      "installation": null,
+      "notes": "Use `fuser -k 8000/tcp` to immediately kill the process using the port. Add -v for verbose output."
+    },
+    {
+      "id": "ss-tulpn",
+      "name": "List Listening Ports",
+      "command": "ss -tulpn",
+      "categoryId": "file-port-debugging",
+      "purpose": "Show all TCP and UDP listening ports with process information.",
+      "example": "ss -tulpn",
+      "usefulWhen": [
+        "Auditing which services are exposed",
+        "Finding all listening ports on a server",
+        "Checking if a model API server is bound correctly",
+        "Debugging networking issues"
+      ],
+      "syntax": "ss -tulpn",
+      "tags": ["port", "socket", "tcp", "udp", "listen", "network", "services"],
+      "complexity": "intermediate",
+      "relatedCommands": ["netstat-tulpn", "lsof-i", "fuser-port"],
+      "installation": null,
+      "notes": "Flags: -t (TCP), -u (UDP), -l (listening), -p (process info), -n (numeric ports). ss is the modern replacement for netstat."
+    },
+    {
+      "id": "netstat-tulpn",
+      "name": "List Listening Ports (netstat)",
+      "command": "netstat -tulpn",
+      "categoryId": "file-port-debugging",
+      "purpose": "Show all listening TCP/UDP ports with associated processes — legacy alternative to ss.",
+      "example": "netstat -tulpn",
+      "usefulWhen": [
+        "Working on older Linux systems without ss",
+        "Familiar syntax for traditional sysadmins",
+        "Checking listening services"
+      ],
+      "syntax": "netstat -tulpn",
+      "tags": ["port", "network", "netstat", "tcp", "udp", "listen", "legacy"],
+      "complexity": "intermediate",
+      "relatedCommands": ["ss-tulpn", "lsof-i", "fuser-port"],
+      "installation": "sudo apt install net-tools",
+      "notes": "netstat is deprecated on modern systems in favor of ss. The net-tools package may not be installed by default."
+    },
+    {
+      "id": "who",
+      "name": "Show Logged-in Users",
+      "command": "who",
+      "categoryId": "user-monitoring",
+      "purpose": "Display currently logged-in users, their terminals, and login times.",
+      "example": "who",
+      "usefulWhen": [
+        "Checking who else is on the GPU server",
+        "Auditing active user sessions",
+        "Coordinating GPU usage with teammates"
+      ],
+      "syntax": "who",
+      "tags": ["users", "login", "session", "terminal", "audit"],
+      "complexity": "beginner",
+      "relatedCommands": ["w-cmd", "last"],
+      "installation": null,
+      "notes": "Shows username, terminal (tty/pts), login date/time, and source IP for remote sessions."
+    },
+    {
+      "id": "w-cmd",
+      "name": "Detailed User Activity",
+      "command": "w",
+      "categoryId": "user-monitoring",
+      "purpose": "Show logged-in users with system uptime, load average, and what they're running.",
+      "example": "w",
+      "usefulWhen": [
+        "Seeing what commands other users are running",
+        "Checking system load and uptime at a glance",
+        "Identifying idle vs active user sessions"
+      ],
+      "syntax": "w",
+      "tags": ["users", "activity", "load", "uptime", "sessions"],
+      "complexity": "beginner",
+      "relatedCommands": ["who", "last", "top"],
+      "installation": null,
+      "notes": "Combines info from who, uptime, and process monitoring. IDLE column shows how long a user has been inactive."
+    },
+    {
+      "id": "last",
+      "name": "Login History",
+      "command": "last",
+      "categoryId": "user-monitoring",
+      "purpose": "Show the history of user logins and reboots.",
+      "example": "last",
+      "usefulWhen": [
+        "Auditing who accessed the server and when",
+        "Checking reboot history",
+        "Investigating unauthorized access",
+        "Tracking uptime patterns"
+      ],
+      "syntax": "last",
+      "tags": ["users", "login", "history", "audit", "security", "reboot"],
+      "complexity": "beginner",
+      "relatedCommands": ["who", "w-cmd"],
+      "installation": null,
+      "notes": "Use `last -n 20` to show only the last 20 entries. `last reboot` shows only system reboots. Data comes from /var/log/wtmp."
+    },
+    {
+      "id": "df-h",
+      "name": "Check Disk Space",
+      "command": "df -h",
+      "categoryId": "disk-monitoring",
+      "purpose": "Show disk space usage for all mounted filesystems in human-readable format.",
+      "example": "df -h",
+      "usefulWhen": [
+        "Checking if disk is full before downloading a model",
+        "Monitoring storage on shared servers",
+        "Debugging 'No space left on device' errors"
+      ],
+      "syntax": "df -h",
+      "tags": ["disk", "space", "filesystem", "storage", "usage"],
+      "complexity": "beginner",
+      "relatedCommands": ["du-sh", "ncdu"],
+      "installation": null,
+      "notes": "Use `df -h /path` to check a specific mount point. The -i flag shows inode usage instead of disk space."
+    },
+    {
+      "id": "du-sh",
+      "name": "Check Directory Size",
+      "command": "du -sh PATH",
+      "categoryId": "disk-monitoring",
+      "purpose": "Show the total size of a directory or file in human-readable format.",
+      "example": "du -sh /home/user/models/",
+      "usefulWhen": [
+        "Finding which directories are using the most space",
+        "Checking model checkpoint sizes",
+        "Estimating storage needed for datasets",
+        "Cleaning up old training artifacts"
+      ],
+      "syntax": "du -sh <path>",
+      "tags": ["disk", "directory", "size", "storage", "space"],
+      "complexity": "beginner",
+      "relatedCommands": ["df-h", "ncdu"],
+      "installation": null,
+      "notes": "Use `du -sh *` to show sizes of all items in the current directory. Add `| sort -h` to sort by size."
+    },
+    {
+      "id": "ncdu",
+      "name": "Interactive Disk Usage Analyzer",
+      "command": "ncdu",
+      "categoryId": "disk-monitoring",
+      "purpose": "Interactive, ncurses-based disk usage analyzer for exploring directory sizes.",
+      "example": "ncdu /home/user/",
+      "usefulWhen": [
+        "Interactively exploring which directories use the most space",
+        "Cleaning up disk space on GPU servers",
+        "Finding large model files and datasets",
+        "Navigating deep directory trees"
+      ],
+      "syntax": "ncdu <path>",
+      "tags": ["disk", "interactive", "usage", "analyzer", "visual", "cleanup"],
+      "complexity": "beginner",
+      "relatedCommands": ["du-sh", "df-h"],
+      "installation": "sudo apt install ncdu",
+      "notes": "Navigate with arrow keys, press 'd' to delete files/directories. Use -x to stay on a single filesystem."
+    },
+    {
+      "id": "tail-f",
+      "name": "Follow Log File",
+      "command": "tail -f LOGFILE",
+      "categoryId": "log-debugging",
+      "purpose": "Continuously display new lines appended to a log file in real-time.",
+      "example": "tail -f /var/log/syslog",
+      "usefulWhen": [
+        "Watching training logs in real-time",
+        "Monitoring server startup for errors",
+        "Debugging application crashes",
+        "Following vLLM or inference server logs"
+      ],
+      "syntax": "tail -f <log_file>",
+      "tags": ["log", "tail", "follow", "realtime", "monitoring", "debug"],
+      "complexity": "beginner",
+      "relatedCommands": ["journalctl", "dmesg", "grep-r-log"],
+      "installation": null,
+      "notes": "Use `tail -f -n 100` to start with the last 100 lines. Combine with grep: `tail -f log.txt | grep ERROR`."
+    },
+    {
+      "id": "journalctl",
+      "name": "View System Journal",
+      "command": "journalctl -xe",
+      "categoryId": "log-debugging",
+      "purpose": "Query and display logs from the systemd journal with explanations.",
+      "example": "journalctl -xe",
+      "usefulWhen": [
+        "Investigating system-level errors",
+        "Debugging service crashes (e.g., Docker, NVIDIA driver)",
+        "Checking OOM killer events",
+        "Reviewing boot-time errors"
+      ],
+      "syntax": "journalctl -xe",
+      "tags": ["log", "systemd", "journal", "system", "errors", "debug"],
+      "complexity": "intermediate",
+      "relatedCommands": ["tail-f", "dmesg", "grep-r-log"],
+      "installation": null,
+      "notes": "Flags: -x (add explanatory text), -e (jump to end). Use `-u <service>` to filter by service, `--since '1 hour ago'` for time ranges, `-f` to follow."
+    },
+    {
+      "id": "dmesg",
+      "name": "Kernel Messages",
+      "command": "dmesg | tail",
+      "categoryId": "log-debugging",
+      "purpose": "Display recent kernel ring buffer messages — essential for hardware debugging.",
+      "example": "dmesg | tail -30",
+      "usefulWhen": [
+        "Debugging GPU driver crashes",
+        "Investigating hardware errors (disk, memory, NIC)",
+        "Checking for OOM killer events",
+        "Diagnosing NVIDIA kernel module issues"
+      ],
+      "syntax": "dmesg | tail",
+      "tags": ["log", "kernel", "hardware", "driver", "debug", "system"],
+      "complexity": "intermediate",
+      "relatedCommands": ["journalctl", "tail-f"],
+      "installation": null,
+      "notes": "Use `dmesg -T` for human-readable timestamps. `dmesg | grep -i gpu` to filter GPU-related messages. May require sudo on some systems."
+    },
+    {
+      "id": "grep-r-log",
+      "name": "Search Logs for Errors",
+      "command": "grep -r 'error' /var/log/",
+      "categoryId": "log-debugging",
+      "purpose": "Recursively search through log files for specific error patterns.",
+      "example": "grep -r 'OOM' /var/log/",
+      "usefulWhen": [
+        "Hunting for specific error messages across log files",
+        "Finding OOM or CUDA errors in system logs",
+        "Searching for crash patterns",
+        "Investigating intermittent failures"
+      ],
+      "syntax": "grep -r '<pattern>' <log_directory>",
+      "tags": ["log", "search", "grep", "errors", "recursive", "debug"],
+      "complexity": "intermediate",
+      "relatedCommands": ["tail-f", "journalctl", "dmesg", "grep-rn"],
+      "installation": null,
+      "notes": "Use -i for case-insensitive search, -n for line numbers, -l for filenames only. Combine patterns: `grep -r 'error\\|fail\\|OOM' /var/log/`."
+    },
+    {
+      "id": "find",
+      "name": "Find Files",
+      "command": "find PATH -name 'PATTERN'",
+      "categoryId": "file-search",
+      "purpose": "Search for files and directories by name, type, size, date, and more.",
+      "example": "find /home -name '*.py' -mtime -1",
+      "usefulWhen": [
+        "Locating model checkpoint files",
+        "Finding recently modified config files",
+        "Searching for large files to clean up",
+        "Locating specific dataset files"
+      ],
+      "syntax": "find <path> -name '<pattern>'",
+      "tags": ["file", "search", "find", "locate", "name", "pattern"],
+      "complexity": "intermediate",
+      "relatedCommands": ["locate", "grep-rn", "tree", "wc-l"],
+      "installation": null,
+      "notes": "Useful flags: -type f (files only), -type d (dirs only), -size +100M (large files), -mtime -7 (modified in last 7 days), -exec (run command on results)."
+    },
+    {
+      "id": "locate",
+      "name": "Fast File Lookup",
+      "command": "locate FILENAME",
+      "categoryId": "file-search",
+      "purpose": "Instantly find files using a pre-built database index — much faster than find.",
+      "example": "locate requirements.txt",
+      "usefulWhen": [
+        "Quickly finding a file by name",
+        "Searching the entire filesystem efficiently",
+        "Locating config files or scripts"
+      ],
+      "syntax": "locate <filename>",
+      "tags": ["file", "search", "locate", "fast", "index", "database"],
+      "complexity": "beginner",
+      "relatedCommands": ["find", "grep-rn"],
+      "installation": "sudo apt install mlocate && sudo updatedb",
+      "notes": "Database is updated periodically via cron. Run `sudo updatedb` to refresh manually. Won't find files created since last updatedb."
+    },
+    {
+      "id": "grep-rn",
+      "name": "Search File Contents",
+      "command": "grep -rn 'PATTERN' PATH",
+      "categoryId": "file-search",
+      "purpose": "Recursively search for text patterns inside files with line numbers.",
+      "example": "grep -rn 'learning_rate' ./configs/",
+      "usefulWhen": [
+        "Finding where a configuration value is defined",
+        "Searching for function definitions in codebases",
+        "Locating hardcoded values or secrets",
+        "Navigating unfamiliar ML codebases"
+      ],
+      "syntax": "grep -rn '<pattern>' <path>",
+      "tags": ["search", "grep", "contents", "text", "code", "recursive"],
+      "complexity": "intermediate",
+      "relatedCommands": ["find", "grep-r-log", "tree"],
+      "installation": null,
+      "notes": "Use -i for case-insensitive, --include='*.py' to restrict to Python files. Consider using ripgrep (rg) for faster searches in large codebases."
+    },
+    {
+      "id": "tree",
+      "name": "Directory Tree View",
+      "command": "tree",
+      "categoryId": "file-search",
+      "purpose": "Display directory structure as a visual tree with indentation.",
+      "example": "tree -L 2 /project/",
+      "usefulWhen": [
+        "Understanding project structure",
+        "Documenting codebase layout",
+        "Getting an overview of ML project organization",
+        "Sharing directory structures with teammates"
+      ],
+      "syntax": "tree -L <depth> <path>",
+      "tags": ["directory", "tree", "structure", "visual", "navigation"],
+      "complexity": "beginner",
+      "relatedCommands": ["find", "wc-l"],
+      "installation": "sudo apt install tree",
+      "notes": "Use -L to limit depth, -I to exclude patterns (e.g., tree -I '__pycache__|node_modules'), -d for directories only."
+    },
+    {
+      "id": "wc-l",
+      "name": "Count Lines in Files",
+      "command": "wc -l FILE",
+      "categoryId": "file-search",
+      "purpose": "Count the number of lines in one or more files.",
+      "example": "wc -l *.py",
+      "usefulWhen": [
+        "Measuring codebase size",
+        "Counting lines in training data files",
+        "Checking log file lengths",
+        "Comparing file sizes"
+      ],
+      "syntax": "wc -l <file>",
+      "tags": ["count", "lines", "file", "size", "statistics"],
+      "complexity": "beginner",
+      "relatedCommands": ["find", "grep-rn", "tree"],
+      "installation": null,
+      "notes": "Use `find . -name '*.py' | xargs wc -l` to count lines across all Python files. `wc -w` counts words, `wc -c` counts bytes."
+    },
+    {
+      "id": "ping",
+      "name": "Test Network Connectivity",
+      "command": "ping HOST",
+      "categoryId": "network-debugging",
+      "purpose": "Send ICMP packets to test network connectivity and measure latency.",
+      "example": "ping google.com",
+      "usefulWhen": [
+        "Checking if a remote server is reachable",
+        "Measuring network latency to cloud services",
+        "Diagnosing network outages",
+        "Testing connectivity to model download servers"
+      ],
+      "syntax": "ping <host_or_ip>",
+      "tags": ["network", "ping", "connectivity", "latency", "icmp"],
+      "complexity": "beginner",
+      "relatedCommands": ["curl-test", "traceroute", "dig", "ip-addr"],
+      "installation": null,
+      "notes": "Use `ping -c 4` to send only 4 packets. On Linux, ping runs indefinitely by default (Ctrl+C to stop)."
+    },
+    {
+      "id": "curl-test",
+      "name": "Test HTTP Endpoint",
+      "command": "curl -I URL",
+      "categoryId": "network-debugging",
+      "purpose": "Make HTTP requests to test APIs, download files, or check endpoint health.",
+      "example": "curl -I https://huggingface.co",
+      "usefulWhen": [
+        "Testing if a model API is responding",
+        "Checking HTTP headers and status codes",
+        "Debugging REST API connectivity",
+        "Verifying HuggingFace model hub access"
+      ],
+      "syntax": "curl -I <url>",
+      "tags": ["network", "http", "api", "test", "curl", "request"],
+      "complexity": "intermediate",
+      "relatedCommands": ["ping", "traceroute", "dig"],
+      "installation": null,
+      "notes": "Flags: -I (headers only), -o (output file), -s (silent), -v (verbose), -X POST (POST request), -d (data). Use `curl -o /dev/null -s -w '%{http_code}' URL` for just status code."
+    },
+    {
+      "id": "traceroute",
+      "name": "Trace Network Route",
+      "command": "traceroute HOST",
+      "categoryId": "network-debugging",
+      "purpose": "Show the network path (hops) packets take to reach a destination.",
+      "example": "traceroute google.com",
+      "usefulWhen": [
+        "Diagnosing where network slowdowns occur",
+        "Identifying routing issues to cloud providers",
+        "Debugging high latency to remote GPU clusters",
+        "Understanding network topology"
+      ],
+      "syntax": "traceroute <host>",
+      "tags": ["network", "route", "trace", "hops", "latency", "debug"],
+      "complexity": "intermediate",
+      "relatedCommands": ["ping", "dig", "ip-addr"],
+      "installation": "sudo apt install traceroute",
+      "notes": "Some hops may show '* * *' due to firewalls blocking ICMP. Use `traceroute -T` for TCP-based traceroute to work around this."
+    },
+    {
+      "id": "dig",
+      "name": "DNS Lookup",
+      "command": "dig DOMAIN",
+      "categoryId": "network-debugging",
+      "purpose": "Perform DNS lookups to resolve domain names and debug DNS issues.",
+      "example": "dig huggingface.co",
+      "usefulWhen": [
+        "Debugging DNS resolution failures",
+        "Checking if a domain resolves correctly",
+        "Investigating model download failures",
+        "Verifying DNS configuration"
+      ],
+      "syntax": "dig <domain>",
+      "tags": ["network", "dns", "lookup", "resolve", "domain"],
+      "complexity": "intermediate",
+      "relatedCommands": ["ping", "curl-test", "ip-addr"],
+      "installation": "sudo apt install dnsutils",
+      "notes": "Use `dig +short` for concise output. `dig @8.8.8.8 domain` to query a specific DNS server. `dig -x IP` for reverse DNS."
+    },
+    {
+      "id": "ip-addr",
+      "name": "Show Network Interfaces",
+      "command": "ip addr show",
+      "categoryId": "network-debugging",
+      "purpose": "Display all network interfaces with their IP addresses and configuration.",
+      "example": "ip addr show",
+      "usefulWhen": [
+        "Finding the server's IP address",
+        "Checking network interface status",
+        "Debugging NCCL multi-GPU communication",
+        "Verifying InfiniBand or high-speed network setup"
+      ],
+      "syntax": "ip addr show",
+      "tags": ["network", "ip", "interface", "address", "config"],
+      "complexity": "beginner",
+      "relatedCommands": ["ping", "ss-tulpn"],
+      "installation": null,
+      "notes": "Modern replacement for ifconfig. Use `ip -brief addr` for a compact view. `ip route` shows the routing table."
+    },
+    {
+      "id": "docker-ps",
+      "name": "List Running Containers",
+      "command": "docker ps",
+      "categoryId": "docker-debugging",
+      "purpose": "Show all running Docker containers with their status, ports, and names.",
+      "example": "docker ps",
+      "usefulWhen": [
+        "Checking which ML services are running",
+        "Finding container IDs for debugging",
+        "Verifying container port mappings",
+        "Monitoring container health status"
+      ],
+      "syntax": "docker ps",
+      "tags": ["docker", "container", "list", "running", "status"],
+      "complexity": "beginner",
+      "relatedCommands": ["docker-logs", "docker-inspect", "docker-stats", "docker-exec"],
+      "installation": null,
+      "notes": "Use `docker ps -a` to show all containers including stopped ones. `docker ps --format 'table {{.Names}}\\t{{.Status}}'` for custom output."
+    },
+    {
+      "id": "docker-logs",
+      "name": "View Container Logs",
+      "command": "docker logs CONTAINER",
+      "categoryId": "docker-debugging",
+      "purpose": "Display stdout/stderr logs from a Docker container.",
+      "example": "docker logs vllm-server",
+      "usefulWhen": [
+        "Debugging containerized ML model crashes",
+        "Viewing training output from a container",
+        "Checking container startup errors",
+        "Following real-time container output"
+      ],
+      "syntax": "docker logs <container_name_or_id>",
+      "tags": ["docker", "logs", "container", "debug", "output"],
+      "complexity": "beginner",
+      "relatedCommands": ["docker-ps", "docker-inspect", "docker-exec"],
+      "installation": null,
+      "notes": "Use `-f` to follow logs in real-time (like tail -f). `--tail 100` for last 100 lines. `--since 1h` for last hour of logs."
+    },
+    {
+      "id": "docker-inspect",
+      "name": "Inspect Container Details",
+      "command": "docker inspect CONTAINER",
+      "categoryId": "docker-debugging",
+      "purpose": "Show detailed JSON metadata about a container including network, volumes, and environment.",
+      "example": "docker inspect vllm-server",
+      "usefulWhen": [
+        "Checking container environment variables",
+        "Debugging volume mount issues",
+        "Inspecting network configuration",
+        "Verifying GPU pass-through settings (--gpus)"
+      ],
+      "syntax": "docker inspect <container_name_or_id>",
+      "tags": ["docker", "inspect", "metadata", "config", "debug", "json"],
+      "complexity": "intermediate",
+      "relatedCommands": ["docker-ps", "docker-logs", "docker-exec"],
+      "installation": null,
+      "notes": "Output is JSON. Use jq to filter: `docker inspect container | jq '.[0].NetworkSettings.IPAddress'`. Check GPU access: `docker inspect container | jq '.[0].HostConfig.DeviceRequests'`."
+    },
+    {
+      "id": "docker-stats",
+      "name": "Container Resource Usage",
+      "command": "docker stats",
+      "categoryId": "docker-debugging",
+      "purpose": "Display real-time resource usage (CPU, memory, network, I/O) for all running containers.",
+      "example": "docker stats",
+      "usefulWhen": [
+        "Monitoring container CPU and memory consumption",
+        "Debugging container resource limits",
+        "Checking network I/O for model serving containers",
+        "Identifying resource-hungry containers"
+      ],
+      "syntax": "docker stats",
+      "tags": ["docker", "stats", "resources", "cpu", "memory", "monitoring"],
+      "complexity": "beginner",
+      "relatedCommands": ["docker-ps", "docker-logs", "htop"],
+      "installation": null,
+      "notes": "Use `docker stats --no-stream` for a single snapshot. `docker stats container_name` to monitor a specific container."
+    },
+    {
+      "id": "docker-exec",
+      "name": "Execute Command in Container",
+      "command": "docker exec -it CONTAINER bash",
+      "categoryId": "docker-debugging",
+      "purpose": "Open an interactive shell or run a command inside a running Docker container.",
+      "example": "docker exec -it vllm-server bash",
+      "usefulWhen": [
+        "Debugging inside a running ML container",
+        "Checking installed Python packages in a container",
+        "Inspecting model files inside a container",
+        "Running diagnostic commands within containers"
+      ],
+      "syntax": "docker exec -it <container> <command>",
+      "tags": ["docker", "exec", "shell", "interactive", "debug", "bash"],
+      "complexity": "intermediate",
+      "relatedCommands": ["docker-ps", "docker-logs", "docker-inspect"],
+      "installation": null,
+      "notes": "The -i flag keeps stdin open, -t allocates a pseudo-TTY. Use `docker exec container_name command` for non-interactive execution."
+    },
+    {
+      "id": "docker-compose-logs",
+      "name": "Docker Compose Logs",
+      "command": "docker-compose logs -f SERVICE",
+      "categoryId": "docker-debugging",
+      "purpose": "Follow logs from a specific service in a Docker Compose stack.",
+      "example": "docker-compose logs -f api",
+      "usefulWhen": [
+        "Debugging multi-container ML deployments",
+        "Following logs from a specific compose service",
+        "Monitoring startup of orchestrated services",
+        "Troubleshooting inter-service communication"
+      ],
+      "syntax": "docker-compose logs -f <service_name>",
+      "tags": ["docker", "compose", "logs", "service", "multi-container"],
+      "complexity": "intermediate",
+      "relatedCommands": ["docker-logs", "docker-ps", "docker-stats"],
+      "installation": null,
+      "notes": "Use `docker-compose logs` without service name to see all services. Modern Docker uses `docker compose` (without hyphen) as a subcommand."
+    },
+    {
+      "id": "docker-system-df",
+      "name": "Docker Disk Usage",
+      "command": "docker system df",
+      "categoryId": "docker-debugging",
+      "purpose": "Show Docker disk usage broken down by images, containers, volumes, and build cache.",
+      "example": "docker system df",
+      "usefulWhen": [
+        "Investigating why Docker is using so much disk space",
+        "Identifying reclaimable storage from unused images",
+        "Cleaning up Docker resources on GPU servers",
+        "Monitoring Docker storage on shared machines"
+      ],
+      "syntax": "docker system df",
+      "tags": ["docker", "disk", "space", "storage", "cleanup", "images"],
+      "complexity": "intermediate",
+      "relatedCommands": ["docker-ps", "df-h", "du-sh"],
+      "installation": null,
+      "notes": "Use `docker system df -v` for detailed breakdown. Clean up with `docker system prune` (removes stopped containers, dangling images, unused networks)."
+    },
+    {
+      "id": "pip-list",
+      "name": "List Python Packages",
+      "command": "pip list",
+      "categoryId": "aiml-commands",
+      "purpose": "List all installed Python packages and their versions.",
+      "example": "pip list | grep torch",
+      "usefulWhen": [
+        "Checking installed package versions",
+        "Verifying PyTorch or TensorFlow installation",
+        "Debugging import errors",
+        "Comparing environments between servers"
+      ],
+      "syntax": "pip list",
+      "tags": ["python", "pip", "packages", "versions", "environment"],
+      "complexity": "beginner",
+      "relatedCommands": ["conda-list", "python-torch-cuda"],
+      "installation": null,
+      "notes": "Use `pip list --outdated` to show packages with newer versions. `pip show package_name` for detailed info about a specific package."
+    },
+    {
+      "id": "conda-list",
+      "name": "List Conda Packages",
+      "command": "conda list",
+      "categoryId": "aiml-commands",
+      "purpose": "List all packages in the active Conda environment.",
+      "example": "conda list | grep cuda",
+      "usefulWhen": [
+        "Checking CUDA toolkit version in Conda",
+        "Verifying Conda environment setup",
+        "Debugging environment inconsistencies",
+        "Listing all dependencies for reproducibility"
+      ],
+      "syntax": "conda list",
+      "tags": ["conda", "packages", "environment", "python", "versions"],
+      "complexity": "beginner",
+      "relatedCommands": ["pip-list", "python-torch-cuda"],
+      "installation": null,
+      "notes": "Use `conda list -n env_name` to list packages from a specific environment. `conda env export > environment.yml` to export the full environment."
+    },
+    {
+      "id": "python-torch-cuda",
+      "name": "Verify PyTorch CUDA Access",
+      "command": "python -c \"import torch; print(torch.cuda.is_available()); print(torch.cuda.device_count())\"",
+      "categoryId": "aiml-commands",
+      "purpose": "Quickly verify that PyTorch can access CUDA GPUs and count available devices.",
+      "example": "python -c \"import torch; print(torch.cuda.is_available()); print(torch.cuda.device_count())\"",
+      "usefulWhen": [
+        "Verifying CUDA is properly configured",
+        "Checking GPU access after driver updates",
+        "Debugging 'CUDA not available' errors",
+        "Validating Docker container GPU pass-through"
+      ],
+      "syntax": "python -c \"import torch; print(torch.cuda.is_available())\"",
+      "tags": ["python", "pytorch", "cuda", "gpu", "verify", "torch"],
+      "complexity": "intermediate",
+      "relatedCommands": ["nvidia-smi", "pip-list", "nvidia-smi-training"],
+      "installation": null,
+      "notes": "Returns True/False for CUDA availability and the number of GPUs. Also try: `python -c \"import torch; print(torch.version.cuda)\"` to check CUDA version."
+    },
+    {
+      "id": "nvidia-smi-training",
+      "name": "Monitor GPU During Training",
+      "command": "watch -n 1 nvidia-smi",
+      "categoryId": "aiml-commands",
+      "purpose": "Continuously monitor GPU utilization and memory during model training or inference.",
+      "example": "watch -n 1 nvidia-smi",
+      "usefulWhen": [
+        "Monitoring GPU memory during training",
+        "Detecting GPU utilization drops (data loading bottlenecks)",
+        "Watching for OOM during model loading",
+        "Tracking multi-GPU training efficiency"
+      ],
+      "syntax": "watch -n <seconds> nvidia-smi",
+      "tags": ["gpu", "training", "monitoring", "nvidia", "memory", "watch"],
+      "complexity": "intermediate",
+      "relatedCommands": ["nvidia-smi", "gpustat", "nvitop", "python-torch-cuda"],
+      "installation": null,
+      "notes": "Look for: GPU-Util% (should be high during training), Memory-Usage (watch for OOM), and Temperature (thermal throttling above 80°C)."
+    },
+    {
+      "id": "gpustat",
+      "name": "Compact GPU Status",
+      "command": "gpustat",
+      "categoryId": "aiml-commands",
+      "purpose": "Show a compact, colorized summary of GPU status — a simpler alternative to nvidia-smi.",
+      "example": "gpustat -cup",
+      "usefulWhen": [
+        "Getting a quick GPU overview in one line per GPU",
+        "Monitoring GPU usage from multiple SSH sessions",
+        "Checking which user is using which GPU",
+        "Scripting GPU status checks"
+      ],
+      "syntax": "gpustat",
+      "tags": ["gpu", "status", "compact", "monitoring", "colorized"],
+      "complexity": "beginner",
+      "relatedCommands": ["nvidia-smi", "nvitop", "watch-nvidia-smi"],
+      "installation": "pip install gpustat",
+      "notes": "Flags: -c (color), -u (show users), -p (show PID). Use `watch gpustat -cup` for continuous monitoring. Much more readable than nvidia-smi for daily use."
+    },
+    {
+      "id": "du-top10-dirs",
+      "command": "du -h --max-depth=1 ~ 2>/dev/null | sort -hr | head -n 10",
+      "categoryId": "disk-monitoring",
+      "name": "Top 10 Largest Directories",
+      "purpose": "Find the top 10 largest directories in your home folder, sorted by size.",
+      "example": "du -h --max-depth=1 /home/user 2>/dev/null | sort -hr | head -n 10",
+      "syntax": "du -h --max-depth=1 <directory> 2>/dev/null | sort -hr | head -n <count>",
+      "usefulWhen": [
+        "Figuring out what's eating disk space",
+        "Before cleaning up a server",
+        "Debugging low disk space alerts"
+      ],
+      "tags": ["disk", "space", "size", "directories", "cleanup"],
+      "complexity": "intermediate",
+      "relatedCommands": ["du-sh", "df-h", "ncdu"]
+    },
+    {
+      "id": "du-huggingface-cache",
+      "command": "du -sh ~/.cache/huggingface 2>/dev/null",
+      "categoryId": "aiml-commands",
+      "name": "Check HuggingFace Cache Size",
+      "purpose": "Check the disk space used by downloaded HuggingFace model weights and datasets.",
+      "example": "du -sh ~/.cache/huggingface 2>/dev/null",
+      "syntax": "du -sh ~/.cache/huggingface",
+      "usefulWhen": [
+        "Running out of disk space on ML servers",
+        "Before downloading a new large model",
+        "Auditing storage usage across team members"
+      ],
+      "tags": ["huggingface", "cache", "models", "disk", "AI", "ML"],
+      "complexity": "beginner",
+      "relatedCommands": ["du-sh", "du-top10-dirs", "df-h"],
+      "notes": "HuggingFace stores model weights in ~/.cache/huggingface/hub/. Large models like LLaMA or Mistral can use 50-200GB each."
+    },
+    {
+      "id": "pip-cache-purge",
+      "command": "pip cache purge",
+      "categoryId": "aiml-commands",
+      "name": "Clean Pip Cache",
+      "purpose": "Remove all cached pip packages to free up disk space.",
+      "example": "pip cache purge",
+      "syntax": "pip cache purge",
+      "usefulWhen": [
+        "Freeing disk space on ML servers",
+        "After many pip installs",
+        "Regular server maintenance"
+      ],
+      "tags": ["pip", "cache", "cleanup", "disk", "python"],
+      "complexity": "beginner",
+      "relatedCommands": ["conda-clean", "du-top10-dirs"],
+      "notes": "Can free up 10+ GB if you've done many package installs. Check cache size first with `pip cache info`."
+    },
+    {
+      "id": "conda-clean",
+      "command": "conda clean --all -y",
+      "categoryId": "aiml-commands",
+      "name": "Clean Conda Cache",
+      "purpose": "Remove unused Conda packages, tarballs, and cache to reclaim disk space.",
+      "example": "conda clean --all -y",
+      "syntax": "conda clean --all [-y]",
+      "usefulWhen": [
+        "Freeing disk space on conda environments",
+        "After creating/deleting many environments",
+        "Server maintenance"
+      ],
+      "tags": ["conda", "cache", "cleanup", "disk", "environments"],
+      "complexity": "beginner",
+      "relatedCommands": ["pip-cache-purge", "du-top10-dirs"],
+      "notes": "The -y flag skips confirmation prompts. Use `conda clean --packages` to only remove unused packages."
+    },
+    {
+      "id": "df-h-home",
+      "command": "df -h /home",
+      "categoryId": "disk-monitoring",
+      "name": "Check Disk Space for Home",
+      "purpose": "Display disk space usage for the /home partition in human-readable format.",
+      "example": "df -h /home",
+      "syntax": "df -h [path]",
+      "usefulWhen": [
+        "Checking available space before downloading models",
+        "Monitoring server disk usage",
+        "Debugging 'No space left on device' errors"
+      ],
+      "tags": ["disk", "space", "partition", "monitoring"],
+      "complexity": "beginner",
+      "relatedCommands": ["df-h", "du-sh", "du-top10-dirs", "ncdu"]
+    },
+    {
+      "id": "ps-pid-start-time",
+      "command": "ps -p <PID> -o lstart=",
+      "categoryId": "process-monitoring",
+      "name": "Check PID Start Time",
+      "purpose": "Display the exact start date and time of a specific process by its PID.",
+      "example": "ps -p 12345 -o lstart=",
+      "syntax": "ps -p <PID> -o lstart=",
+      "usefulWhen": [
+        "Checking how long a training job has been running",
+        "Investigating when a process started",
+        "Debugging stale or zombie processes",
+        "Verifying process restart times"
+      ],
+      "tags": ["process", "PID", "start time", "uptime", "monitoring"],
+      "complexity": "intermediate",
+      "relatedCommands": ["ps-aux-grep", "ps-fp", "htop"],
+      "notes": "The = after lstart= suppresses the column header. You can also use -o etime= for elapsed time since start."
+    }
+  ]
+}

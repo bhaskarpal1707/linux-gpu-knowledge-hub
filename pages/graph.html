@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CmdHub — Interactive Command Graph</title>
+    <meta name="description" content="Explore the interactive knowledge graph of Linux, GPU, AI/ML, and Docker commands. Visualize relationships between commands and categories.">
+    <meta name="keywords" content="command graph, knowledge graph, Linux commands visualization, GPU tools, interactive map">
+    <meta name="author" content="CmdHub">
+    <meta name="theme-color" content="#0a0e17">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+            <div class="sidebar-header">
+                <a href="../index.html" class="sidebar-logo" aria-label="CmdHub home">
+                    <div class="sidebar-logo-main">
+                        <i class="bi bi-terminal-fill" style="color: var(--accent-blue); font-size: 1.5rem;" aria-hidden="true"></i>
+                        <span class="sidebar-logo-text">CmdHub</span>
+                    </div>
+                    <span class="sidebar-logo-credit">Developed by Bhaskar Pal</span>
+                </a>
+                <button class="btn btn--icon sidebar-toggle" id="sidebar-toggle" title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true" aria-controls="sidebar">
+                    <i class="bi bi-layout-sidebar-inset" aria-hidden="true"></i>
+                </button>
+            </div>
+            <nav class="sidebar-nav" id="sidebar-nav" aria-label="Category navigation">
+                <!-- Populated by app.js -->
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content main-content--full" id="main-content" role="main">
+            <!-- Mobile header -->
+            <header class="mobile-header" role="banner">
+                <button class="btn btn--icon mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="sidebar">
+                    <i class="bi bi-list" aria-hidden="true"></i>
+                </button>
+                <span class="mobile-logo" aria-hidden="true">⚡ CmdHub</span>
+            </header>
+
+            <!-- GRAPH VIEW -->
+            <section class="graph-view" id="graph-view" aria-label="Interactive command graph">
+                <!-- Loading indicator -->
+                <div class="graph-loading" id="graph-loading" role="status" aria-live="polite">
+                    <div class="graph-loading-spinner" aria-hidden="true">
+                        <div class="spinner"></div>
+                    </div>
+                    <p class="graph-loading-text">Building knowledge graph...</p>
+                    <p class="graph-loading-subtitle" id="graph-loading-subtitle">Stabilizing nodes</p>
+                </div>
+
+                <!-- Graph Canvas -->
+                <div class="graph-canvas" id="graph-canvas" role="img" aria-label="Interactive network graph of commands and their relationships">
+                    <!-- vis-network renders here -->
+                </div>
+
+                <!-- Floating Search (top-left) -->
+                <div class="graph-floating-search" id="graph-floating-search" role="search" aria-label="Search graph nodes">
+                    <div class="search-bar search-bar--compact search-bar--floating">
+                        <i class="bi bi-search search-icon" aria-hidden="true"></i>
+                        <input type="text" id="graph-search-input" placeholder="Find a command..." autocomplete="off" spellcheck="false" aria-label="Search for a command node">
+                    </div>
+                    <div class="graph-search-results" id="graph-search-results" role="listbox" aria-label="Graph search results" hidden></div>
+                </div>
+
+                <!-- Floating Control Panel (top-right) -->
+                <div class="graph-controls" id="graph-controls" role="toolbar" aria-label="Graph view controls">
+                    <button class="btn btn--icon graph-control-btn" id="graph-zoom-in" title="Zoom in" aria-label="Zoom in">
+                        <i class="bi bi-zoom-in" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn--icon graph-control-btn" id="graph-zoom-out" title="Zoom out" aria-label="Zoom out">
+                        <i class="bi bi-zoom-out" aria-hidden="true"></i>
+                    </button>
+                    <div class="graph-controls-divider" role="separator" aria-hidden="true"></div>
+                    <button class="btn btn--icon graph-control-btn" id="graph-reset-view" title="Reset view" aria-label="Reset graph view to default">
+                        <i class="bi bi-arrows-fullscreen" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn--icon graph-control-btn" id="graph-stabilize" title="Stabilize graph" aria-label="Stabilize graph layout">
+                        <i class="bi bi-bullseye" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <!-- Category Legend (bottom-left) -->
+                <div class="graph-legend" id="graph-legend" role="group" aria-label="Category legend and visibility toggles">
+                    <h3 class="graph-legend-title" id="graph-legend-title">
+                        <i class="bi bi-palette" aria-hidden="true"></i> Categories
+                    </h3>
+                    <div class="graph-legend-list" id="graph-legend-list" role="list" aria-labelledby="graph-legend-title">
+                        <!-- Populated by graph.js: colored dots with category names and toggle checkboxes -->
+                    </div>
+                    <button class="btn btn--sm graph-legend-toggle-all" id="graph-legend-toggle-all" aria-label="Toggle all categories">
+                        Toggle All
+                    </button>
+                </div>
+
+                <!-- Info Panel (right side, slides in on node click) -->
+                <aside class="graph-info-panel" id="graph-info-panel" aria-label="Selected command details" aria-hidden="true" hidden>
+                    <div class="graph-info-panel-header">
+                        <h3 class="graph-info-panel-title" id="graph-info-panel-title">Command Details</h3>
+                        <button class="btn btn--icon graph-info-panel-close" id="graph-info-panel-close" aria-label="Close details panel">
+                            <i class="bi bi-x-lg" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="graph-info-panel-body" id="graph-info-panel-body" role="document">
+                        <!-- Populated by graph.js when a node is clicked -->
+                        <div class="graph-info-placeholder">
+                            <i class="bi bi-cursor" aria-hidden="true"></i>
+                            <p>Click a node to view command details</p>
+                        </div>
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Footer -->
+            <footer class="app-footer" role="contentinfo">
+                <div class="footer-content">
+                    <p class="footer-copyright">&copy; 2026 CmdHub. All rights reserved.</p>
+                    <p class="footer-credit">Developed by <a href="https://github.com/bhaskarpal1707" target="_blank" rel="noopener noreferrer">Bhaskar Pal</a></p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.4.1/dist/fuse.min.js"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/graph.js"></script>
+</body>
+</html>

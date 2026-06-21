@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CmdHub — Terminal Mode</title>
+    <meta name="description" content="Interactive terminal-style command explorer for Linux, GPU, AI/ML, and Docker commands. Type commands to search, browse, and learn.">
+    <meta name="keywords" content="terminal, command line, Linux, GPU, AI/ML, interactive shell, command explorer">
+    <meta name="author" content="CmdHub">
+    <meta name="theme-color" content="#0a0e17">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+            <div class="sidebar-header">
+                <a href="../index.html" class="sidebar-logo" aria-label="CmdHub home">
+                    <div class="sidebar-logo-main">
+                        <i class="bi bi-terminal-fill" style="color: var(--accent-blue); font-size: 1.5rem;" aria-hidden="true"></i>
+                        <span class="sidebar-logo-text">CmdHub</span>
+                    </div>
+                    <span class="sidebar-logo-credit">Developed by Bhaskar Pal</span>
+                </a>
+                <button class="btn btn--icon sidebar-toggle" id="sidebar-toggle" title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="true" aria-controls="sidebar">
+                    <i class="bi bi-layout-sidebar-inset" aria-hidden="true"></i>
+                </button>
+            </div>
+            <nav class="sidebar-nav" id="sidebar-nav" aria-label="Category navigation">
+                <!-- Populated by app.js -->
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content main-content--terminal" id="main-content" role="main">
+            <!-- Mobile header -->
+            <header class="mobile-header" role="banner">
+                <button class="btn btn--icon mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="sidebar">
+                    <i class="bi bi-list" aria-hidden="true"></i>
+                </button>
+                <span class="mobile-logo" aria-hidden="true">⚡ CmdHub</span>
+            </header>
+
+            <!-- TERMINAL CONTAINER -->
+            <article class="terminal-container" id="terminal-container" role="region" aria-label="Interactive terminal emulator">
+                <!-- Terminal Header -->
+                <header class="terminal-header">
+                    <div class="terminal-dots" aria-hidden="true">
+                        <span class="terminal-dot terminal-dot--red" title="Close (decorative)"></span>
+                        <span class="terminal-dot terminal-dot--yellow" title="Minimize (decorative)"></span>
+                        <span class="terminal-dot terminal-dot--green" title="Maximize (decorative)"></span>
+                    </div>
+                    <span class="terminal-title" id="terminal-title">CmdHub Terminal</span>
+                    <div class="terminal-header-spacer"></div>
+                </header>
+
+                <!-- Terminal Body (scrollable output area) -->
+                <div class="terminal-body" id="terminal-body" role="log" aria-live="polite" aria-label="Terminal output" tabindex="0">
+                    <!-- Output lines appended by terminal.js -->
+                </div>
+
+                <!-- Terminal Input Area -->
+                <footer class="terminal-input-area" role="form" aria-label="Terminal command input">
+                    <span class="terminal-prompt" id="terminal-prompt" aria-hidden="true">user@hub:~$</span>
+                    <label for="terminal-input" class="visually-hidden">Enter a terminal command</label>
+                    <input type="text" id="terminal-input" class="terminal-input" autofocus autocomplete="off" spellcheck="false" aria-label="Terminal command input" aria-describedby="terminal-input-hint">
+                    <span class="visually-hidden" id="terminal-input-hint">Type 'help' for available commands</span>
+                </footer>
+            </article>
+
+            <!-- Footer -->
+            <footer class="app-footer" role="contentinfo">
+                <div class="footer-content">
+                    <p class="footer-copyright">&copy; 2026 CmdHub. All rights reserved.</p>
+                    <p class="footer-credit">Developed by <a href="https://github.com/bhaskarpal1707" target="_blank" rel="noopener noreferrer">Bhaskar Pal</a></p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.4.1/dist/fuse.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/terminal.js"></script>
+</body>
+</html>
