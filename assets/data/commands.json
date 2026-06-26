@@ -92,6 +92,13 @@
       "color": "#f43f5e"
     },
     {
+      "id": "conda-env-management",
+      "name": "Conda Environment Management",
+      "icon": "bi-snow2",
+      "description": "List, inspect, and analyze Conda environments and their disk usage",
+      "color": "#22d3ee"
+    },
+    {
       "id": "important-commands",
       "name": "Most Important Commands",
       "icon": "bi-star",
@@ -1346,6 +1353,201 @@
       "complexity": "intermediate",
       "relatedCommands": ["ps-aux-grep", "ps-fp", "htop"],
       "notes": "The = after lstart= suppresses the column header. You can also use -o etime= for elapsed time since start."
+    },
+    {
+      "id": "conda-env-list",
+      "name": "List All Conda Environments",
+      "command": "conda env list",
+      "categoryId": "conda-env-management",
+      "purpose": "Display a list of all Conda environments with their paths.",
+      "example": "conda env list",
+      "usefulWhen": [
+        "Checking how many Conda environments exist",
+        "Finding the path to a specific environment",
+        "Auditing environments on a shared server",
+        "Before creating or deleting environments"
+      ],
+      "syntax": "conda env list",
+      "tags": ["conda", "environment", "list", "python", "path"],
+      "complexity": "beginner",
+      "relatedCommands": ["conda-info-envs", "conda-env-size", "conda-list", "conda-clean"],
+      "installation": null,
+      "notes": "The active environment is marked with an asterisk (*). Equivalent to `conda info --envs`."
+    },
+    {
+      "id": "conda-info-envs",
+      "name": "Conda Environment Info",
+      "command": "conda info --envs",
+      "categoryId": "conda-env-management",
+      "purpose": "Show all available Conda environments with their installation paths.",
+      "example": "conda info --envs",
+      "usefulWhen": [
+        "Listing environments and their full paths",
+        "Verifying which environment is currently active",
+        "Locating environment directories for cleanup"
+      ],
+      "syntax": "conda info --envs",
+      "tags": ["conda", "environment", "info", "path", "active"],
+      "complexity": "beginner",
+      "relatedCommands": ["conda-env-list", "conda-env-size", "conda-list"],
+      "installation": null,
+      "notes": "Same output as `conda env list`. Use `conda info` (without --envs) for full Conda installation details."
+    },
+    {
+      "id": "conda-env-size",
+      "name": "Check Size of Each Conda Environment",
+      "command": "du -sh ~/miniconda3/envs/*",
+      "categoryId": "conda-env-management",
+      "purpose": "Show the disk space used by each individual Conda environment.",
+      "example": "du -sh ~/miniconda3/envs/*",
+      "usefulWhen": [
+        "Finding which Conda environment is consuming the most space",
+        "Deciding which environments to delete",
+        "Auditing storage usage on shared GPU servers",
+        "Before cleaning up old environments"
+      ],
+      "syntax": "du -sh ~/miniconda3/envs/*",
+      "tags": ["conda", "environment", "size", "disk", "space", "cleanup"],
+      "complexity": "intermediate",
+      "relatedCommands": ["conda-env-size-sorted", "conda-envs-total-size", "conda-env-list", "du-sh"],
+      "installation": null,
+      "notes": "Replace ~/miniconda3 with your actual Conda installation path (e.g., ~/anaconda3). Check with `conda info --base`."
+    },
+    {
+      "id": "conda-env-size-sorted",
+      "name": "Sort Conda Environments by Size",
+      "command": "du -sh ~/miniconda3/envs/* | sort -hr",
+      "categoryId": "conda-env-management",
+      "purpose": "List all Conda environments sorted by size from largest to smallest.",
+      "example": "du -sh ~/miniconda3/envs/* | sort -hr",
+      "usefulWhen": [
+        "Identifying the largest environments for cleanup",
+        "Prioritizing which environments to remove first",
+        "Quick disk space triage on ML servers"
+      ],
+      "syntax": "du -sh ~/miniconda3/envs/* | sort -hr",
+      "tags": ["conda", "environment", "size", "sorted", "disk", "cleanup"],
+      "complexity": "intermediate",
+      "relatedCommands": ["conda-env-size", "conda-envs-total-size", "du-sh", "ncdu"],
+      "installation": null,
+      "notes": "The -h flag makes sort understand human-readable sizes (e.g., 10G > 500M). The -r flag reverses to descending order."
+    },
+    {
+      "id": "conda-envs-total-size",
+      "name": "Total Size of All Conda Environments",
+      "command": "du -sh ~/miniconda3/envs",
+      "categoryId": "conda-env-management",
+      "purpose": "Show the combined total disk space used by all Conda environments.",
+      "example": "du -sh ~/miniconda3/envs",
+      "usefulWhen": [
+        "Getting a quick overview of total Conda storage usage",
+        "Reporting environment disk usage to team or admin",
+        "Comparing Conda footprint vs other storage consumers"
+      ],
+      "syntax": "du -sh ~/miniconda3/envs",
+      "tags": ["conda", "environment", "total", "size", "disk"],
+      "complexity": "beginner",
+      "relatedCommands": ["conda-env-size", "conda-env-size-sorted", "df-h"],
+      "installation": null,
+      "notes": "This gives a single total number. Use `du -sh ~/miniconda3/envs/*` to see individual environment sizes."
+    },
+    {
+      "id": "conda-env-list-with-size",
+      "name": "List Conda Environments with Sizes",
+      "command": "conda env list | grep -v '^#' | awk '{print $NF}' | xargs du -sh 2>/dev/null",
+      "categoryId": "conda-env-management",
+      "purpose": "Display every Conda environment alongside its total storage size.",
+      "example": "conda env list | grep -v '^#' | awk '{print $NF}' | xargs du -sh 2>/dev/null",
+      "usefulWhen": [
+        "Getting a human-readable list of all environments with sizes",
+        "Auditing environment storage on GPU servers",
+        "Creating reports on Conda disk usage"
+      ],
+      "syntax": "conda env list | grep -v '^#' | awk '{print $NF}' | xargs du -sh 2>/dev/null",
+      "tags": ["conda", "environment", "size", "list", "audit", "pipeline"],
+      "complexity": "advanced",
+      "relatedCommands": ["conda-env-list", "conda-env-size", "conda-env-size-sorted"],
+      "installation": null,
+      "notes": "This pipes the output of conda env list through awk to extract paths, then runs du -sh on each. The 2>/dev/null suppresses permission errors."
+    },
+    {
+      "id": "du-miniconda-breakdown",
+      "name": "Miniconda Installation Disk Breakdown",
+      "command": "du -h --max-depth=1 ~/miniconda3 | sort -h",
+      "categoryId": "conda-env-management",
+      "purpose": "Find which specific folders inside your Miniconda installation are consuming the most disk space.",
+      "example": "du -h --max-depth=1 /home/user/miniconda3 | sort -h",
+      "usefulWhen": [
+        "Understanding Miniconda disk footprint",
+        "Identifying large subdirectories (pkgs, envs, lib)",
+        "Optimizing Conda installation size",
+        "Comparing envs vs package cache sizes"
+      ],
+      "syntax": "du -h --max-depth=1 <conda_path> | sort -h",
+      "tags": ["conda", "miniconda", "disk", "breakdown", "folders", "space"],
+      "complexity": "intermediate",
+      "relatedCommands": ["conda-env-size", "conda-clean", "du-top10-dirs", "ncdu"],
+      "installation": null,
+      "notes": "Common large directories: envs/ (virtual environments), pkgs/ (downloaded packages cache). Run `conda clean --all -y` to clear the pkgs cache."
+    },
+    {
+      "id": "du-home-sorted",
+      "name": "Home Directory Space Usage",
+      "command": "du -h --max-depth=1 ~ | sort -hr",
+      "categoryId": "disk-monitoring",
+      "purpose": "Show which folders in your home directory are consuming the most space, sorted largest first.",
+      "example": "du -h --max-depth=1 /home/user | sort -hr",
+      "usefulWhen": [
+        "Finding what is consuming disk space in your home folder",
+        "Quick disk triage before cleanup",
+        "Identifying large model checkpoints, datasets, or caches",
+        "Monitoring personal disk usage on shared servers"
+      ],
+      "syntax": "du -h --max-depth=1 ~ | sort -hr",
+      "tags": ["disk", "home", "directory", "size", "sorted", "space", "cleanup"],
+      "complexity": "intermediate",
+      "relatedCommands": ["du-sh", "du-top10-dirs", "df-h", "ncdu"],
+      "installation": null,
+      "notes": "The --max-depth=1 flag limits output to immediate subdirectories. Remove the flag to see deeper nesting. Pipe to `head -n 20` for top 20 only."
+    },
+    {
+      "id": "du-folder-size",
+      "name": "Check Any Folder Size",
+      "command": "du -sh <folder_path>",
+      "categoryId": "disk-monitoring",
+      "purpose": "Check the total size of any specific folder on the filesystem.",
+      "example": "du -sh /home/user/datasets/",
+      "usefulWhen": [
+        "Checking the size of a dataset directory",
+        "Measuring model checkpoint folder size",
+        "Estimating storage before copying or transferring files",
+        "Verifying download completeness"
+      ],
+      "syntax": "du -sh <folder_path>",
+      "tags": ["disk", "folder", "size", "check", "storage"],
+      "complexity": "beginner",
+      "relatedCommands": ["du-sh", "du-subfolder-sizes", "df-h", "ncdu"],
+      "installation": null,
+      "notes": "Use -s for summary (total only) and -h for human-readable sizes. Without -s, du shows every subdirectory individually."
+    },
+    {
+      "id": "du-subfolder-sizes",
+      "name": "List Subfolder Sizes",
+      "command": "du -sh <folder_path>/*",
+      "categoryId": "disk-monitoring",
+      "purpose": "Show the size of every subfolder and file inside a given directory.",
+      "example": "du -sh /home/user/projects/*",
+      "usefulWhen": [
+        "Finding the largest subfolders inside a directory",
+        "Inspecting which project or dataset takes the most space",
+        "Breaking down storage usage within a specific path"
+      ],
+      "syntax": "du -sh <folder_path>/*",
+      "tags": ["disk", "subfolder", "size", "breakdown", "storage"],
+      "complexity": "beginner",
+      "relatedCommands": ["du-folder-size", "du-sh", "du-home-sorted", "ncdu"],
+      "installation": null,
+      "notes": "The * glob expands to all items in the directory. Add `| sort -hr` to sort by size descending. Hidden files (starting with .) are not included unless you also add du -sh .* ."
     }
   ]
 }

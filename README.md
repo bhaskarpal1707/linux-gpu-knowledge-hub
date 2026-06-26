@@ -9,7 +9,7 @@ Developed by [Bhaskar Pal](https://github.com/bhaskarpal1707).
 ## 🚀 Key Features
 
 * **⚡ Lightning-Fast Search**: Fuzzy search (powered by weighted indexing) with a custom, offline-capable, lightweight fallback matching engine if CDNs fail to load. Fully keyboard navigable.
-* **📂 13 Category Divisions**: Command groups covering Process Monitoring, GPU monitoring, Log Debugging, Memory, Disk, Network, Docker, and specific AI/ML tasks (e.g. `PyTorch CUDA` checks).
+* **📂 15 Category Divisions**: Command groups covering Process Monitoring, GPU monitoring, Log Debugging, Memory, Disk, Network, Docker, Conda Environment Management, and specific AI/ML tasks (e.g. `PyTorch CUDA` checks, Conda env sizing).
 * **🕸️ Interactive Vis-Network Graph**: Visualizes connections and pipelines between related commands (e.g. `ps aux | grep` linked with `pgrep`, `pidof`, and `kill`) in a force-directed interactive node canvas.
 * **💻 Interactive macOS Terminal Emulator**: macOS-style terminal console containing custom shell utilities (`help`, `ls`, `search`, `cat <id>`, `favorites`, `recent`, `clear`) allowing direct command lookups and query fallbacks.
 * **❤️ LocalStorage Favorites & Recents**: Toggle and bookmark favorites or browse your recently viewed history in real-time.
